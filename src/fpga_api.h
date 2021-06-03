@@ -16,6 +16,7 @@ private:
     int fd_;	
     float* data_;
     unsigned int* api_;
+	float* real_;
 	
 public:
     FPGA(off_t data_addr, off_t api_addr);
@@ -27,6 +28,7 @@ public:
 	
 	// perform matrix multiplication and return output array pointer
     const float* run();	
+	const float* real();
 	
 	// input vector size: M
 	// matrix size: N by M
