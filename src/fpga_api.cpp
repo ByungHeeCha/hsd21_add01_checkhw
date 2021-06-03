@@ -71,6 +71,22 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 	float* m2 = this->matrix_M2();
 	for(int i = 0; i < num_output*num_matrix2; ++i)
     output[i] = 0;
+  
+  for(int i=0; i < num_output; i++) {
+    for(int j=0; j<num_input; j++) {
+      printf("%f ", weight_mat[i*num_input+j]);
+    }
+    printf("\n");
+  }
+  printf("\n");
+  
+  for(int i=0; i<num_input; i++) {
+    for(int j=0; j<num_matrix2; j++) {
+      printf("%f ", input_mat[i*num_matrix2+j]);
+    }
+    printf("\n");
+  }
+  printf("\n");
 
   for(int i = 0; i < num_output; i += SIZE)
   {
