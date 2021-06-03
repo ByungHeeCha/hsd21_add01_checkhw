@@ -42,26 +42,26 @@ const float* __attribute__((optimize("O0"))) FPGA::run()
     return data_;    
 }
 
-const float* FPGA::real()
-{
-  float* real_ = new float[8*8];
-  float* m1 = this->matrix_M1();
-	float* m2 = this->matrix_M2();
-  for(int aaa=0; aaa<8; aaa++) {
-    for(int bbb=0; bbb<8; bbb++) {
-      real_[aaa*8+bbb] = 0;
-    }
-  }
+// const float* FPGA::real()
+// {
+//   float* real_ = new float[8*8];
+//   float* m1 = this->matrix_M1();
+// 	float* m2 = this->matrix_M2();
+//   for(int aaa=0; aaa<8; aaa++) {
+//     for(int bbb=0; bbb<8; bbb++) {
+//       real_[aaa*8+bbb] = 0;
+//     }
+//   }
 
-  for(int aaa=0; aaa<8;aaa++) {
-    for(int bbb=0; bbb<8; bbb++) {
-      for(int kkk=0; kkk<8; kkk++) {
-        real_[aaa*8+bbb] += m1[aaa*8+kkk] * m2[kkk*8+bbb];
-      }
-    }
-  }
-  return real_;
-}
+//   for(int aaa=0; aaa<8;aaa++) {
+//     for(int bbb=0; bbb<8; bbb++) {
+//       for(int kkk=0; kkk<8; kkk++) {
+//         real_[aaa*8+bbb] += m1[aaa*8+kkk] * m2[kkk*8+bbb];
+//       }
+//     }
+//   }
+//   return real_;
+// }
 
 // Test code for bitstream
 void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* output, 
@@ -138,7 +138,7 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 		// 3) Call a function `blockMM() to execute Matrix matrix multiplication
 		const float* rst = this->run();
 
-    const float* real_ = this->real();
+    // const float* real_ = this->real();
 
     // 4) Accumulate intermediate results
     // It is slightly different from the code for the project.
@@ -152,12 +152,12 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
           printf("\n");
         }
         printf("\n");
-    for(int n = 0; n<block_row; n++) {
-      for(int m=0; m<block_col_2; m++) {
-        printf("%f ", real_[n*8+m]);
-      }
-      printf("\n");
-    }
+    // for(int n = 0; n<block_row; n++) {
+    //   for(int m=0; m<block_col_2; m++) {
+    //     printf("%f ", real_[n*8+m]);
+    //   }
+    //   printf("\n");
+    // }
 		// 4) Accumulate intermediate results
  	  } 
     

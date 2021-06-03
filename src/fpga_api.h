@@ -28,7 +28,7 @@ public:
 	
 	// perform matrix multiplication and return output array pointer
     const float* run();	
-	const float* real();
+	// const float* real();
 	
 	// input vector size: M
 	// matrix size: N by M
