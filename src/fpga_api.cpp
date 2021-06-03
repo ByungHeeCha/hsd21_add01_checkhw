@@ -106,6 +106,8 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 		// 3) Call a function `blockMM() to execute Matrix matrix multiplication
 		const float* rst = this->run();
 
+    this->real();
+
     // 4) Accumulate intermediate results
     // It is slightly different from the code for the project.
 		for(int n = 0; n<block_row; ++n)
