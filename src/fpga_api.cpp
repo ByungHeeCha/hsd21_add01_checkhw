@@ -122,6 +122,14 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
         {
           memcpy(m2 + row * SIZE, input_mat + (j + row) * num_matrix2 + k, block_col_2*sizeof(float));
         }
+        for(int aaa=0; aaa<8; aaa++) {
+          for(int bbb=0; bbb<8; bbb++) {
+            printf("%f ", m2[aaa*8+bbb]);
+          }
+          printf("\n");
+        }
+        printf("\n");
+
 
         // 2) Assign a m2
         // Implement This
