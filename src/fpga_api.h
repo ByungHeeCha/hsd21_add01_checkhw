@@ -16,7 +16,7 @@ private:
     int fd_;	
     float* data_;
     unsigned int* api_;
-	float* real_;
+	// float* real_;
 	
 public:
     FPGA(off_t data_addr, off_t api_addr);

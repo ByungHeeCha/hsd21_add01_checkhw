@@ -15,7 +15,6 @@ FPGA::FPGA(off_t data_addr, off_t api_addr)
     fd_ = open("/dev/mem", O_RDWR);
     data_ = static_cast<float*>(mmap(NULL, DATA_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_, data_addr));
     api_ = static_cast<unsigned int*>(mmap(NULL, sizeof(unsigned int), PROT_READ|PROT_WRITE, MAP_SHARED,fd_, api_addr));
-    real_ = new float[8*8];
 }
 
 FPGA::~FPGA()
@@ -45,6 +44,7 @@ const float* __attribute__((optimize("O0"))) FPGA::run()
 
 const float* FPGA::real()
 {
+  float* real_ = new float[8*8];
   float* m1 = this->matrix_M1();
 	float* m2 = this->matrix_M2();
   for(int aaa=0; aaa<8; aaa++) {
@@ -138,7 +138,7 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 		// 3) Call a function `blockMM() to execute Matrix matrix multiplication
 		const float* rst = this->run();
 
-    this->real();
+    const float* real_ = this->real();
 
     // 4) Accumulate intermediate results
     // It is slightly different from the code for the project.
