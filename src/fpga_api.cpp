@@ -64,6 +64,19 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 
         // 1) Assign a m1
         // Implement This
+        memset(m1, 0, sizeof(float) * v_size_ * v_size_);
+        for (int row = 0; row < block_row; row++)
+        {
+          memcpy(m1 + row * v_size_, weight_mat + (i + row) * num_input + j, block_col_1);
+        }
+
+        // 2) Assign a m2
+        // IMPLEMENT THIS
+        memset(m2, 0, sizeof(float) * v_size_ * v_size_);
+        for (int row = 0; row < block_col_1; row++)
+        {
+          memcpy(m2 + row * v_size_, input_mat + (j + row) * num_matrix2 + k, block_col_2);
+        }
 
         // 2) Assign a m2
         // Implement This
