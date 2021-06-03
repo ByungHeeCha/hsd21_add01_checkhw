@@ -15,7 +15,7 @@ FPGA::FPGA(off_t data_addr, off_t api_addr)
     fd_ = open("/dev/mem", O_RDWR);
     data_ = static_cast<float*>(mmap(NULL, DATA_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_, data_addr));
     api_ = static_cast<unsigned int*>(mmap(NULL, sizeof(unsigned int), PROT_READ|PROT_WRITE, MAP_SHARED,fd_, api_addr));
-    real_ = new float[8][8];
+    real_ = new float[8*8];
 }
 
 FPGA::~FPGA()
@@ -49,14 +49,14 @@ const float* FPGA::real()
 	float* m2 = this->matrix_M2();
   for(int aaa=0; aaa<8; aaa++) {
     for(int bbb=0; bbb<8; bbb++) {
-      real_[aaa][bbb] = 0;
+      real_[aaa*8+bbb] = 0;
     }
   }
 
   for(int aaa=0; aaa<8;aaa++) {
     for(int bbb=0; bbb<8; bbb++) {
       for(int kkk=0; kkk<8; kkk++) {
-        real_[aaa][bbb] += m1[aaa][kkk] * m2[kkk][bbb];
+        real_[aaa*8+bbb] += m1[aaa*8+kkk] * m2[kkk*8+bbb];
       }
     }
   }
@@ -122,7 +122,7 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
         printf("\n");
     for(int n = 0; n<block_row; n++) {
       for(int m=0; m<block_col_2; m++) {
-        printf("%f ", real_[n][m]);
+        printf("%f ", real_[n*8+m]);
       }
       printf("\n");
     }
