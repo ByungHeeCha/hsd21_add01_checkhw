@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
-#define DATA_SIZE SIZE*(SIZE+1)*sizeof(float) // fpga bram data size
+#define DATA_SIZE 2*SIZE*(SIZE)*sizeof(float) // fpga bram data size
 
 #define min(x,y) (((x)<(y))?(x):(y))
 
