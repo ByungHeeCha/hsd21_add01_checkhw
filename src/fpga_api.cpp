@@ -147,7 +147,7 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
         {
           for(int m = 0; m<block_col_2; ++m)
           {
-            output[(i + n) * num_matrix2 + j + m] += rst[n * SIZE + m];
+            output[(i + n) * num_matrix2 + k + m] += rst[n * SIZE + m];
             // printf("%f ", output[n*SIZE + m]);
           }
           printf("\n");
