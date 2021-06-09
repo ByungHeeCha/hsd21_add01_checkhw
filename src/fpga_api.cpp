@@ -73,21 +73,21 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
             output[i] = 0;
         }
   
-  for(int i=0; i < num_output; i++) {
-    for(int j=0; j<num_input; j++) {
-      printf("%f ", weight_mat[i*num_input+j]);
-    }
-    printf("\n");
-  }
-  printf("\n");
+  // for(int i=0; i < num_output; i++) {
+  //   for(int j=0; j<num_input; j++) {
+  //     printf("%f ", weight_mat[i*num_input+j]);
+  //   }
+  //   printf("\n");
+  // }
+  // printf("\n");
 
-  for(int i=0; i<num_input; i++) {
-    for(int j=0; j<num_matrix2; j++) {
-      printf("%f ", input_mat[i*num_matrix2+j]);
-    }
-    printf("\n");
-  }
-  printf("\n");
+  // for(int i=0; i<num_input; i++) {
+  //   for(int j=0; j<num_matrix2; j++) {
+  //     printf("%f ", input_mat[i*num_matrix2+j]);
+  //   }
+  //   printf("\n");
+  // }
+  // printf("\n");
 
   for(int i = 0; i < num_output; i += SIZE)
   {
@@ -108,13 +108,13 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
           memcpy(m1 + row * SIZE, weight_mat + (i + row) * num_input + j, block_col_1*sizeof(float));
         }
 
-        for(int aaa=0; aaa<8; aaa++) {
-          for(int bbb=0; bbb<8; bbb++) {
-            printf("%f ", m1[aaa*8+bbb]);
-          }
-          printf("\n");
-        }
-        printf("\n");
+        // for(int aaa=0; aaa<8; aaa++) {
+        //   for(int bbb=0; bbb<8; bbb++) {
+        //     printf("%f ", m1[aaa*8+bbb]);
+        //   }
+        //   printf("\n");
+        // }
+        // printf("\n");
 
         // 2) Assign a m2
         // IMPLEMENT THIS
@@ -123,13 +123,13 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
         {
           memcpy(m2 + row * SIZE, input_mat + (j + row) * num_matrix2 + k, block_col_2*sizeof(float));
         }
-        for(int aaa=0; aaa<8; aaa++) {
-          for(int bbb=0; bbb<8; bbb++) {
-            printf("%f ", m2[aaa*8+bbb]);
-          }
-          printf("\n");
-        }
-        printf("\n");
+        // for(int aaa=0; aaa<8; aaa++) {
+        //   for(int bbb=0; bbb<8; bbb++) {
+        //     printf("%f ", m2[aaa*8+bbb]);
+        //   }
+        //   printf("\n");
+        // }
+        // printf("\n");
 
 
         // 2) Assign a m2
@@ -147,8 +147,8 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
         {
           for(int m = 0; m<block_col_2; ++m)
           {
-            output[n*SIZE + m] += rst[n*SIZE + m];
-            printf("%f ", output[n*SIZE + m]);
+            output[(i + n) * num_matrix2 + j + m] += rst[n * SIZE + m];
+            // printf("%f ", output[n*SIZE + m]);
           }
           printf("\n");
         }
