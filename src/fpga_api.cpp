@@ -286,18 +286,24 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
         {
           memcpy(m1 + row * v_size_, weight_mat + (i + row) * num_input + j, sizeof(float)*block_col_1);
         }
+        printf("Asdfasdfadsfa\n");
 
         // 2) Assign a m2
         // IMPLEMENT THIS
+        printf("Asdfasdfadsfa\n");
         memset(m2, 0, sizeof(float) * v_size_ * v_size_);
+        printf("Asdfasdfadsfa\n");
         for (int row = 0; row < block_col_1; row++)
         {
           memcpy(m2 + row * v_size_, input_mat + (j + row) * num_matrix2 + k, sizeof(float)*block_col_2);
         }
+        printf("Asdfasdfadsfa\n");
 
         quantize(m2, qm2, m2_size_, act_bits_min, act_bits_max, act_offset, act_scale);
+        printf("Asdfasdfadsfa\n");
         quantize(m1, qm1, m1_size_, weight_bits_min, weight_bits_max, weight_offset, weight_scale);
 
+        printf("Asdfasdfadsfa\n");
         for (int x=0; x<8; x++) {
           for(int y=0; y<8; y++) {
             printf("%-5d", qm1[x*8+y]);
