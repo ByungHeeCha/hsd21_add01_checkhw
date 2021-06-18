@@ -279,7 +279,9 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 
         // 1) Assign a m1
         // IMPLEMENT THIS
+        printf("Asdfasdfadsfa\n");
         memset(m1, 0, sizeof(float) * v_size_ * v_size_);
+        printf("Asdfasdfadsfa\n");
         for (int row = 0; row < block_row; row++)
         {
           memcpy(m1 + row * v_size_, weight_mat + (i + row) * num_input + j, sizeof(float)*block_col_1);
