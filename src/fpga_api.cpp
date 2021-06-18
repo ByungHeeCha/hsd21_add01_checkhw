@@ -6,14 +6,14 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
-#define DATA_SIZE 2*SIZE*(SIZE)*sizeof(float) // fpga bram data size
+#define DATA_SIZE 2*SIZE*(SIZE)*sizeof(int) // fpga bram data size
 
 #define min(x,y) (((x)<(y))?(x):(y))
 
 FPGA::FPGA(off_t data_addr, off_t api_addr)
 {
     fd_ = open("/dev/mem", O_RDWR);
-    data_ = static_cast<float*>(mmap(NULL, DATA_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_, data_addr));
+    data_ = static_cast<char*>(mmap(NULL, DATA_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_, data_addr));
     api_ = static_cast<unsigned int*>(mmap(NULL, sizeof(unsigned int), PROT_READ|PROT_WRITE, MAP_SHARED,fd_, api_addr));
 }
 
@@ -24,22 +24,22 @@ FPGA::~FPGA()
     close(fd_);
 }
 
-float* FPGA::matrix_M1(void)
+char* FPGA::matrix_M1(void)
 {
 	return data_ ;
 }
 
-float* FPGA::matrix_M2(void)
+char* FPGA::matrix_M2(void)
 {
 	return data_ + SIZE * SIZE;
 }
 
-const float* __attribute__((optimize("O0"))) FPGA::run()
+const int* __attribute__((optimize("O0"))) FPGA::run()
 {
     *api_ = 0x5555;
     while(*api_ == 0x5555);
 
-    return data_;    
+    return reinterpret_cast<int*>(data_);
 }
 
 // const float* FPGA::real()
@@ -64,11 +64,11 @@ const float* __attribute__((optimize("O0"))) FPGA::run()
 // }
 
 // Test code for bitstream
-void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* output, 
+void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output, 
 							int num_input, int num_output, int num_matrix2)
 {
-	float* m1 = this->matrix_M1();
-	float* m2 = this->matrix_M2();
+	char* m1 = this->matrix_M1();
+	char* m2 = this->matrix_M2();
 	for(int i = 0; i < num_output*num_matrix2; ++i){
             output[i] = 0;
         }
@@ -102,10 +102,10 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 
         // 1) Assign a m1
         // Implement This
-        memset(m1, 0, sizeof(float) * SIZE * SIZE);
+        memset(m1, 0, sizeof(char) * SIZE * SIZE);
         for (int row = 0; row < block_row; row++)
         {
-          memcpy(m1 + row * SIZE, weight_mat + (i + row) * num_input + j, block_col_1*sizeof(float));
+          memcpy(m1 + row * SIZE, weight_mat + (i + row) * num_input + j, block_col_1*sizeof(char));
         }
 
         // for(int aaa=0; aaa<8; aaa++) {
@@ -118,10 +118,10 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 
         // 2) Assign a m2
         // IMPLEMENT THIS
-        memset(m2, 0, sizeof(float) * SIZE * SIZE);
+        memset(m2, 0, sizeof(char) * SIZE * SIZE);
         for (int row = 0; row < block_col_1; row++)
         {
-          memcpy(m2 + row * SIZE, input_mat + (j + row) * num_matrix2 + k, block_col_2*sizeof(float));
+          memcpy(m2 + row * SIZE, input_mat + (j + row) * num_matrix2 + k, block_col_2*sizeof(char));
         }
         // for(int aaa=0; aaa<8; aaa++) {
         //   for(int bbb=0; bbb<8; bbb++) {
@@ -137,7 +137,7 @@ void FPGA::largeMM(const float* weight_mat, const float* input_mat, float* outpu
 
 
 		// 3) Call a function `blockMM() to execute Matrix matrix multiplication
-		const float* rst = this->run();
+		const int* rst = this->run();
 
     // const float* real_ = this->real();
 

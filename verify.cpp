@@ -13,14 +13,14 @@ int main(void)
 	int data_size_M = m_size * v_size; 
 
 
-	float* flat = new float[data_size_M*2]; // for input & weight
-	float* input = flat+ data_size_M;	// for input
-	float* mat = flat;  // for weight
-	float* output = new float[data_size_M];	//for output	
-	float* output_fpga = new float[data_size_M]; // for fpga output
+	char* flat = new char[data_size_M*2]; // for input & weight
+	char* input = flat+ data_size_M;	// for input
+	char* mat = flat;  // for weight
+	int* output = new int[data_size_M];	//for output	
+	int* output_fpga = new int[data_size_M]; // for fpga output
 
 	for(int i = 0 ; i < data_size_M*2 ; ++i)
-		flat[i] = ((float)rand()) / RAND_MAX;
+		flat[i] = (rand() % 100) - 50;
 
 	// computation
 	for(int i = 0; i < v_size; ++i)
@@ -41,7 +41,7 @@ int main(void)
 	printf("%-10s%-10s%-10s\n", "index", "CPU", "FPGA");
 	for (int i = 0; i < data_size_M; i++)
 	{
-		printf("%-10d%-10f%-10f%-10f\n", i, output[i], output_fpga[i], output[i]-output_fpga[i]);
+		printf("%-10d%-10d%-10d%-10d\n", i, output[i], output_fpga[i], output[i]-output_fpga[i]);
 	}
 
 	delete[] flat;
