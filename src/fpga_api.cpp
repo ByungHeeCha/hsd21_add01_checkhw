@@ -67,10 +67,10 @@ const int* __attribute__((optimize("O0"))) FPGA::run()
 void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output, 
 							int num_input, int num_output, int num_matrix2)
 {
-  printf("dfasdfasdfasfa\n");
+  // printf("dfasdfasdfasfa\n");
 	char* m1 = this->matrix_M1();
 	char* m2 = this->matrix_M2();
-  printf("dfasdfasdfasfa\n");
+  // printf("dfasdfasdfasfa\n");
 	for(int i = 0; i < num_output*num_matrix2; ++i){
             output[i] = 0;
         }
@@ -104,11 +104,13 @@ void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output,
 
         // 1) Assign a m1
         // Implement This
+        printf("dfasdfasdfasfa\n");
         memset(m1, 0, sizeof(char) * SIZE * SIZE);
         for (int row = 0; row < block_row; row++)
         {
           memcpy(m1 + row * SIZE, weight_mat + (i + row) * num_input + j, block_col_1*sizeof(char));
         }
+        printf("dfasdfasdfasfa\n");
 
         // for(int aaa=0; aaa<8; aaa++) {
         //   for(int bbb=0; bbb<8; bbb++) {
@@ -120,11 +122,13 @@ void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output,
 
         // 2) Assign a m2
         // IMPLEMENT THIS
+        printf("dfasdfasdfasfa\n");
         memset(m2, 0, sizeof(char) * SIZE * SIZE);
         for (int row = 0; row < block_col_1; row++)
         {
           memcpy(m2 + row * SIZE, input_mat + (j + row) * num_matrix2 + k, block_col_2*sizeof(char));
         }
+        printf("dfasdfasdfasfa\n");
         // for(int aaa=0; aaa<8; aaa++) {
         //   for(int bbb=0; bbb<8; bbb++) {
         //     printf("%f ", m2[aaa*8+bbb]);
