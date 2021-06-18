@@ -67,8 +67,10 @@ const int* __attribute__((optimize("O0"))) FPGA::run()
 void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output, 
 							int num_input, int num_output, int num_matrix2)
 {
+  printf("dfasdfasdfasfa\n");
 	char* m1 = this->matrix_M1();
 	char* m2 = this->matrix_M2();
+  printf("dfasdfasdfasfa\n");
 	for(int i = 0; i < num_output*num_matrix2; ++i){
             output[i] = 0;
         }
@@ -137,7 +139,7 @@ void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output,
 
 
 		// 3) Call a function `blockMM() to execute Matrix matrix multiplication
-		printf("dfasdfasdfasfa\n");
+		// printf("dfasdfasdfasfa\n");
     const int* rst = this->run();
 
     // const float* real_ = this->real();
