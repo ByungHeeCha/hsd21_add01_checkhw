@@ -105,7 +105,8 @@ void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output,
         // 1) Assign a m1
         // Implement This
         printf("dfasdfasdfasfa\n");
-        memset(m1, 0, sizeof(float) * SIZE * SIZE);
+        for(int e=0; e<SIZE*SIZE; e++) m1[e] = 0;
+        // memset(m1, 0, sizeof(char) * SIZE * SIZE);
         printf("dfasdfasdfasfa\n");
         for (int row = 0; row < block_row; row++)
         {
