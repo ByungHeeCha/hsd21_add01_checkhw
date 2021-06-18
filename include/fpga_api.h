@@ -14,7 +14,7 @@ class FPGA
 {
 private:
     int fd_;	
-    char* data_;
+    int* data_;
     unsigned int* api_;
 	
 public:

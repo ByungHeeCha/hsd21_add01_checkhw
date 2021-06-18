@@ -13,7 +13,7 @@
 FPGA::FPGA(off_t data_addr, off_t api_addr)
 {
     fd_ = open("/dev/mem", O_RDWR);
-    data_ = static_cast<char*>(mmap(NULL, DATA_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_, data_addr));
+    data_ = static_cast<int*>(mmap(NULL, DATA_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd_, data_addr));
     api_ = static_cast<unsigned int*>(mmap(NULL, sizeof(unsigned int), PROT_READ|PROT_WRITE, MAP_SHARED,fd_, api_addr));
 }
 
@@ -26,12 +26,12 @@ FPGA::~FPGA()
 
 char* FPGA::matrix_M1(void)
 {
-	return data_ ;
+	return reinterpret_cast<char*>(data_) ;
 }
 
 char* FPGA::matrix_M2(void)
 {
-	return data_ + SIZE * SIZE;
+	return reinterpret_cast<char*>(data_) + SIZE * SIZE;
 }
 
 const int* __attribute__((optimize("O0"))) FPGA::run()
@@ -105,8 +105,8 @@ void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output,
         // 1) Assign a m1
         // Implement This
         printf("dfasdfasdfasfa\n");
-        for(int e=0; e<SIZE*SIZE; e++) m1[e] = 0;
-        // memset(m1, 0, sizeof(char) * SIZE * SIZE);
+        // for(int e=0; e<SIZE*SIZE; e++) m1[e] = 0;
+        memset(m1, 0, sizeof(int) * SIZE * SIZE);
         printf("dfasdfasdfasfa\n");
         for (int row = 0; row < block_row; row++)
         {
