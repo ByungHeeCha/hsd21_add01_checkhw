@@ -137,7 +137,8 @@ void FPGA::largeMM(const char* weight_mat, const char* input_mat, int* output,
 
 
 		// 3) Call a function `blockMM() to execute Matrix matrix multiplication
-		const int* rst = this->run();
+		printf("dfasdfasdfasfa\n");
+    const int* rst = this->run();
 
     // const float* real_ = this->real();
 
